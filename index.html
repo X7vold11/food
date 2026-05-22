@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Analisis kalori dan nutrisi makanan menggunakan foto dengan AI">
+    <title>Analisis Kalori Makanan - AI Nutrition Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🍽️ Analisis Kalori Makanan</h1>
+            <p class="subtitle">Analisis nutrisi makanan Anda dengan AI</p>
+        </header>
+
+        <!-- API Key Section -->
+        <section class="api-key-section">
+            <div class="input-group">
+                <label for="apiKey">
+                    <span class="label-text">🔑 Google Gemini API Key</span>
+                    <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="help-link">
+                        Dapatkan API Key
+                    </a>
+                </label>
+                <div class="input-wrapper">
+                    <input 
+                        type="password" 
+                        id="apiKey" 
+                        placeholder="Masukkan API Key Anda di sini..."
+                        autocomplete="off"
+                    >
+                    <button type="button" id="toggleApiKey" class="toggle-btn" aria-label="Toggle API Key visibility">
+                        👁️
+                    </button>
+                </div>
+                <small class="help-text">API Key Anda disimpan secara lokal di browser Anda</small>
+            </div>
+        </section>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <div class="upload-container">
+                <input 
+                    type="file" 
+                    id="imageInput" 
+                    accept="image/*" 
+                    capture="environment"
+                    hidden
+                >
+                <button type="button" id="uploadBtn" class="btn btn-primary">
+                    📸 Upload / Ambil Foto
+                </button>
+            </div>
+
+            <!-- Image Preview -->
+            <div id="imagePreview" class="image-preview hidden">
+                <img id="previewImg" src="" alt="Preview makanan">
+                <button type="button" id="removeImage" class="btn-remove" aria-label="Hapus gambar">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Analyze Button -->
+            <div id="analyzeContainer" class="analyze-container hidden">
+                <button type="button" id="analyzeBtn" class="btn btn-success">
+                    🔍 Analisis Kalori
+                </button>
+            </div>
+        </section>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading-spinner hidden">
+            <div class="spinner"></div>
+            <p>Menganalisis makanan Anda...</p>
+        </div>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="results-section hidden">
+            <h2>📊 Hasil Analisis</h2>
+            <div id="resultsContent" class="results-content"></div>
+        </section>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Dibuat dengan ❤️ menggunakan Google Gemini AI</p>
+            <p class="disclaimer">
+                <small>⚠️ Hasil analisis bersifat estimasi. Konsultasikan dengan ahli gizi untuk informasi lebih akurat.</small>
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
