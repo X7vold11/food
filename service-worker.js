@@ -1,10 +1,10 @@
 const CACHE_NAME = 'kalori-ai-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
-  '/manifest.json'
+  '/food/',
+  '/food/index.html',
+  '/food/styles.css',
+  '/food/script.js',
+  '/food/manifest.json'
 ];
 
 // Install Service Worker
@@ -67,7 +67,7 @@ self.addEventListener('fetch', (event) => {
           
           // If not in cache, return offline page or error
           if (event.request.destination === 'document') {
-            return caches.match('/index.html');
+            return caches.match('/food/index.html');
           }
         });
       })
