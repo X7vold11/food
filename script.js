@@ -12,10 +12,14 @@ const loadingSpinner = document.getElementById('loadingSpinner');
 const resultsSection = document.getElementById('resultsSection');
 const resultsContent = document.getElementById('resultsContent');
 const errorMessage = document.getElementById('errorMessage');
+const installPrompt = document.getElementById('installPrompt');
+const installButton = document.getElementById('installButton');
+const closeInstallPrompt = document.getElementById('closeInstallPrompt');
 
 // State
 let selectedImageBase64 = null;
 let selectedImageMimeType = null;
+let deferredPrompt = null;
 
 // Constants
 const API_KEY_STORAGE_KEY = 'gemini_api_key';
@@ -26,6 +30,8 @@ const NUTRITION_PROMPT = 'Kamu adalah ahli gizi profesional. Analisis foto makan
 function initApp() {
     loadApiKeyFromStorage();
     attachEventListeners();
+    registerServiceWorker();
+    setupPWAInstall();
 }
 
 // Load API Key from localStorage
@@ -359,6 +365,113 @@ function hideError() {
 // Hide Results
 function hideResults() {
     resultsSection.classList.add('hidden');
+}
+
+// Register Service Worker
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((registration) => {
+                    console.log('Service Worker registered successfully:', registration.scope);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New service worker available
+                                if (confirm('Versi baru tersedia! Refresh untuk update?')) {
+                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch((error) => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        });
+    }
+}
+
+// Setup PWA Install
+function setupPWAInstall() {
+    // Listen for beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent the mini-infobar from appearing on mobile
+        e.preventDefault();
+        
+        // Store the event for later use
+        deferredPrompt = e;
+        
+        // Show custom install prompt after 3 seconds
+        setTimeout(() => {
+            showInstallPrompt();
+        }, 3000);
+    });
+
+    // Install button click
+    if (installButton) {
+        installButton.addEventListener('click', async () => {
+            if (!deferredPrompt) {
+                return;
+            }
+
+            // Show the install prompt
+            deferredPrompt.prompt();
+
+            // Wait for the user's response
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            console.log(`User response to install prompt: ${outcome}`);
+
+            // Clear the deferredPrompt
+            deferredPrompt = null;
+            
+            // Hide the install prompt
+            hideInstallPrompt();
+        });
+    }
+
+    // Close install prompt
+    if (closeInstallPrompt) {
+        closeInstallPrompt.addEventListener('click', hideInstallPrompt);
+    }
+
+    // Listen for app installed event
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA installed successfully');
+        hideInstallPrompt();
+        deferredPrompt = null;
+    });
+}
+
+// Show Install Prompt
+function showInstallPrompt() {
+    // Don't show if already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        return;
+    }
+    
+    // Don't show if user dismissed it before
+    const dismissed = localStorage.getItem('install_prompt_dismissed');
+    if (dismissed) {
+        return;
+    }
+    
+    if (installPrompt) {
+        installPrompt.classList.remove('hidden');
+    }
+}
+
+// Hide Install Prompt
+function hideInstallPrompt() {
+    if (installPrompt) {
+        installPrompt.classList.add('hidden');
+        localStorage.setItem('install_prompt_dismissed', 'true');
+    }
 }
 
 // Initialize app when DOM is ready

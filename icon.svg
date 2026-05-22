@@ -1,0 +1,33 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="100" fill="url(#gradient)"/>
+  
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Fork Icon -->
+  <g transform="translate(256, 256)">
+    <!-- Fork Handle -->
+    <rect x="-15" y="60" width="30" height="120" rx="15" fill="white"/>
+    
+    <!-- Fork Prongs -->
+    <rect x="-60" y="-100" width="25" height="170" rx="12" fill="white"/>
+    <rect x="-15" y="-100" width="25" height="170" rx="12" fill="white"/>
+    <rect x="30" y="-100" width="25" height="170" rx="12" fill="white"/>
+    
+    <!-- Food on Fork (Apple) -->
+    <circle cx="0" cy="-140" r="45" fill="#10b981"/>
+    <ellipse cx="0" cy="-145" rx="35" ry="30" fill="#34d399"/>
+    
+    <!-- Leaf -->
+    <ellipse cx="15" cy="-175" rx="12" ry="20" fill="#059669" transform="rotate(30 15 -175)"/>
+  </g>
+  
+  <!-- Calorie Symbol -->
+  <text x="256" y="420" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white" text-anchor="middle">Cal</text>
+</svg>

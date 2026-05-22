@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Analisis kalori dan nutrisi makanan menggunakan foto dengan AI">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Kalori AI">
     <title>Analisis Kalori Makanan - AI Nutrition Analyzer</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icon-192x192.png">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -91,6 +104,19 @@
                 <small>⚠️ Hasil analisis bersifat estimasi. Konsultasikan dengan ahli gizi untuk informasi lebih akurat.</small>
             </p>
         </footer>
+    </div>
+
+    <!-- Install PWA Prompt -->
+    <div id="installPrompt" class="install-prompt hidden">
+        <div class="install-prompt-content">
+            <button type="button" id="closeInstallPrompt" class="close-prompt" aria-label="Tutup">✕</button>
+            <div class="install-icon">📱</div>
+            <h3>Install Aplikasi</h3>
+            <p>Install aplikasi ini di home screen untuk akses lebih cepat dan mudah!</p>
+            <button type="button" id="installButton" class="btn btn-success">
+                ⬇️ Install Sekarang
+            </button>
+        </div>
     </div>
 
     <script src="script.js"></script>
